@@ -162,19 +162,10 @@ main {
   overflow: auto;
 }
 
-.club-list .list > * {
-  float: left;
-  width: 49%;
-
-  margin-block-end: 3%;
-}
-
-.club-list .list > *:nth-child(odd) {
-  float: left;
-}
-
-.club-list .list > *:nth-child(even) {
-  margin-inline-start: 2%;
+.club-list .list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .club-list .list .card .fan-art-club {
@@ -230,3 +221,4 @@ footer .container {
   text-align: center;
 }
 /* End of Footer */
+
