@@ -2,18 +2,30 @@ import Utils from '../utils.js';
 import Clubs from '../data/local/clubs.js';
 
 const home = () => {
+  const searchFormElement = document.querySelector('#searchForm');
+
   const clubListContainerElement = document.querySelector('#clubListContainer');
-  const clubLoadingElement = clubListContainerElement.querySelector('.search-loading');
+  const clubQueryWaitingElement =
+    clubListContainerElement.querySelector('.query-waiting');
+  const clubLoadingElement =
+    clubListContainerElement.querySelector('.search-loading');
   const clubListElement = clubListContainerElement.querySelector('.club-list');
   const listElement = clubListElement.querySelector('.list');
 
-  const showSportClub = () => {
+  const showSportClub = (query) => {
     showLoading();
 
-    const result = Clubs.getAll();
+    const result = Clubs.searchClub(query);
     displayResult(result);
 
     showClubList();
+  };
+
+  const onSearchHandler = (event) => {
+    event.preventDefault();
+
+    const query = event.target.elements.name.value;
+    showSportClub(query);
   };
 
   const displayResult = (clubs) => {
@@ -40,13 +52,6 @@ const home = () => {
     listElement.innerHTML = clubItems.join('');
   };
 
-  const showLoading = () => {
-    Array.from(clubListContainerElement.children).forEach((element) => {
-      Utils.hideElement(element);
-    });
-    Utils.showElement(clubLoadingElement);
-  };
-
   const showClubList = () => {
     Array.from(clubListContainerElement.children).forEach((element) => {
       Utils.hideElement(element);
@@ -54,7 +59,22 @@ const home = () => {
     Utils.showElement(clubListElement);
   };
 
-  showSportClub();
+  const showLoading = () => {
+    Array.from(clubListContainerElement.children).forEach((element) => {
+      Utils.hideElement(element);
+    });
+    Utils.showElement(clubLoadingElement);
+  };
+
+  const showQueryWaiting = () => {
+    Array.from(clubListContainerElement.children).forEach((element) => {
+      Utils.hideElement(element);
+    });
+    Utils.showElement(clubQueryWaitingElement);
+  };
+
+  searchFormElement.addEventListener('submit', onSearchHandler);
+  showQueryWaiting();
 };
 
 export default home;
